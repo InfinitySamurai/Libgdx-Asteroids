@@ -6,8 +6,17 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Ship{
-    float velx;
-    float vely;
+    private final float accelerationSpeed = 1;
+    private final float maxSpeed = 5;
+    private final float rotationSpeed = 10;
+
+
+    private float velx;
+    private float vely;
+
+    private boolean moveForward = false;
+    private boolean rotateAnticlockwise = false;
+    private boolean rotateClockwise = false;
 
 
     Texture texture;
@@ -42,6 +51,13 @@ public class Ship{
         }
         else if(ypos < 0){
             sprite.setY(windowHeight - 5);
+        }
+
+        if(rotateAnticlockwise){
+            sprite.rotate(rotationSpeed);
+        }
+        if(rotateClockwise){
+            sprite.rotate(-rotationSpeed);
         }
     }
 
