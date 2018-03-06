@@ -26,7 +26,8 @@ public class Ship{
     Ship (){
         texture = new Texture("Ship.png");
         sprite = new Sprite(texture);
-        sprite.setOriginCenter();
+//        sprite.setOriginCenter();
+        sprite.setOrigin(sprite.getWidth()/2, sprite.getHeight()/2);
         sprite.setPosition(250, 250);
         sprite.setRotation(180);
         shootSpeed = 2;

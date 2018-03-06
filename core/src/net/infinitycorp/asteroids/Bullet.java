@@ -16,7 +16,9 @@ public class Bullet {
         this.texture = new Texture("Bullet.png");
         this.sprite = new Sprite(texture);
         this.movement = new Movement(speed, rotation);
-        sprite.setOriginCenter();
+//        sprite.setOriginCenter();
+        sprite.setOrigin(sprite.getWidth(), sprite.getHeight());
+
 
         sprite.setRotation(rotation);
         sprite.setPosition(startx, starty);

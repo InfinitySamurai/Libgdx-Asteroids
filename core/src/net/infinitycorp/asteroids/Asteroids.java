@@ -8,11 +8,18 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Random;
+
 public class Asteroids extends ApplicationAdapter {
-	SpriteBatch sb;
-	Texture img;
-	BitmapFont font;
-	Ship ship;
+	private SpriteBatch sb;
+	private Texture img;
+	private BitmapFont font;
+	private Ship ship;
+
+	List<Asteroid> asteroids = new ArrayList<>();
 
 
 	
@@ -22,6 +29,7 @@ public class Asteroids extends ApplicationAdapter {
 		font = new BitmapFont();
 		font.setColor(Color.BLUE);
 		ship = new Ship();
+		asteroids.add(new Asteroid(100, 0, AsteroidTypes.BIG));
 	}
 
 	@Override
@@ -32,8 +40,18 @@ public class Asteroids extends ApplicationAdapter {
 
 		ship.update(delta);
 
+		for (ListIterator<Asteroid> asteroidIterator = asteroids.listIterator(); asteroidIterator.hasNext();){
+			Asteroid a = asteroidIterator.next();
+			a.update(delta);
+		}
+
 		sb.begin();
 		ship.render(sb);
+
+		for(Asteroid a : asteroids){
+			a.render(sb);
+		}
+
 		font.draw(sb, "Hello World", 200, 300);
 		sb.end();
 	}
