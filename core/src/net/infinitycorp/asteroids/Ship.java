@@ -19,6 +19,7 @@ public class Ship{
     private boolean rotateAnticlockwise = false;
     private boolean rotateClockwise = false;
 
+    private final Movement movement = new Movement(maxSpeed, rotationSpeed, 0,0, accelerationSpeed);
 
     Texture texture;
     Sprite sprite;
@@ -41,10 +42,10 @@ public class Ship{
 
 
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-            sprite.rotate(rotationSpeed * delta);
+            movement.rotateSprite(sprite, 1, delta);
         }
         else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
-            sprite.rotate(-rotationSpeed * delta);
+            movement.rotateSprite(sprite, -1, delta);
         }
 
         float rotation = sprite.getRotation();
@@ -58,10 +59,6 @@ public class Ship{
             if(Math.abs(vely) > maxSpeed){
                 vely = Math.signum(vely) * maxSpeed;
             }
-        }
-
-        if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
-            velx = vely = 0;
         }
 
         if (xpos > windowWidth){
