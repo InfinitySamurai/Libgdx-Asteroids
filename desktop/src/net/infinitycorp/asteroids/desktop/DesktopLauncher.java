@@ -9,6 +9,7 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 		cfg.width = 1024;
 		cfg.height = 768;
+		cfg.foregroundFPS = 60;
 		new LwjglApplication(new Asteroids(), cfg);
 	}
 }

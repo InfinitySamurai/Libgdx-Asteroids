@@ -7,9 +7,9 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Ship{
-    private final float accelerationSpeed = 5f;
-    private final float maxSpeed = 5;
-    private final float rotationSpeed = 200;
+    private final float accelerationSpeed = 150f;
+    private final float maxSpeed = 300f;
+    private final float rotationSpeed = 200f;
 
 
     private float velx;
@@ -34,7 +34,6 @@ public class Ship{
     }
 
     public void update(float delta){
-        sprite.translate(velx, vely);
         float windowHeight = Gdx.graphics.getHeight();
         float windowWidth = Gdx.graphics.getWidth();
         float xpos = sprite.getX();
@@ -53,11 +52,11 @@ public class Ship{
             velx += Math.cos(Math.toRadians(rotation)) * accelerationSpeed * delta;
             vely += Math.sin(Math.toRadians(rotation)) * accelerationSpeed * delta;
 
-            if(velx > maxSpeed){
-                velx = maxSpeed;
+            if(Math.abs(velx) > maxSpeed){
+                velx = Math.signum(velx) * maxSpeed;
             }
-            if(vely > maxSpeed){
-                vely = maxSpeed;
+            if(Math.abs(vely) > maxSpeed){
+                vely = Math.signum(vely) * maxSpeed;
             }
         }
 
@@ -78,6 +77,8 @@ public class Ship{
         else if(ypos < 0){
             sprite.setY(windowHeight - 5);
         }
+
+        sprite.translate(velx * delta, vely * delta);
     }
 
     public void render(SpriteBatch sb){
