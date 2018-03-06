@@ -23,7 +23,23 @@ public class Movement {
         this.windowWidth = Gdx.graphics.getWidth();
     }
 
+    Movement(float speed, float rotation){
+        this.velx = (float) Math.cos(Math.toRadians(rotation)) * speed;
+        this.vely = (float) Math.sin(Math.toRadians(rotation)) * speed;
+
+        this.windowHeight = Gdx.graphics.getHeight();
+        this.windowWidth = Gdx.graphics.getWidth();
+    }
+
     public void moveSprite(Sprite sprite, float delta){
+        sprite.translate(velx * delta, vely * delta);
+        checkScreenBounds(sprite);
+
+        return;
+    }
+
+    public void changeVelocity(Sprite sprite, float delta){
+
         float rotation = sprite.getRotation();
         velx += Math.cos(Math.toRadians(rotation)) * accelerationSpeed * delta;
         vely += Math.sin(Math.toRadians(rotation)) * accelerationSpeed * delta;
@@ -34,10 +50,6 @@ public class Movement {
         if(Math.abs(vely) > maxSpeed){
             vely = Math.signum(vely) * maxSpeed;
         }
-
-        sprite.translate(velx * delta, vely * delta);
-
-        checkScreenBounds(sprite);
 
         return;
     }
