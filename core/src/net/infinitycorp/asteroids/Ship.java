@@ -11,9 +11,11 @@ import java.util.List;
 import java.util.ListIterator;
 
 public class Ship{
-    private final float accelerationSpeed = 150f;
-    private final float maxSpeed = 300f;
-    private final float rotationSpeed = 200f;
+    private float accelerationSpeed = 150f;
+    private float maxSpeed = 300f;
+    private float rotationSpeed = 200f;
+    private float shootSpeed;
+    private float shotCooldown;
 
     private final Movement movement = new Movement(maxSpeed, rotationSpeed, 0,0, accelerationSpeed);
     List<Bullet> bullets = new ArrayList<>();
@@ -27,10 +29,16 @@ public class Ship{
         sprite.setOriginCenter();
         sprite.setPosition(250, 250);
         sprite.setRotation(180);
+        shootSpeed = 2;
+    }
+
+    private boolean canShoot(){
+        return shotCooldown < 0 ? true : false;
     }
 
     private void createBullet(){
         bullets.add(new Bullet(sprite.getRotation(), sprite.getX(), sprite.getY()));
+        shotCooldown = 1;
     }
 
     public void update(float delta){
@@ -47,9 +55,12 @@ public class Ship{
         }
 
         if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
-            createBullet();
+            if(canShoot()){
+                createBullet();
+            }
         }
 
+        shotCooldown -= shootSpeed * delta;
         movement.moveSprite(sprite, delta);
 
         for (ListIterator<Bullet> bulletIterator = bullets.listIterator(); bulletIterator.hasNext();){
