@@ -8,17 +8,13 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ListIterator;
-
 public class Asteroids extends ApplicationAdapter {
 	SpriteBatch sb;
 	Texture img;
 	BitmapFont font;
 	Ship ship;
 
-	List<Bullet> bullets = new ArrayList<Bullet>();
+
 	
 	@Override
 	public void create () {
@@ -26,8 +22,6 @@ public class Asteroids extends ApplicationAdapter {
 		font = new BitmapFont();
 		font.setColor(Color.BLUE);
 		ship = new Ship();
-
-		bullets.add(new Bullet(20, 500,500));
 	}
 
 	@Override
@@ -38,19 +32,8 @@ public class Asteroids extends ApplicationAdapter {
 
 		ship.update(delta);
 
-		for (ListIterator<Bullet> bulletIterator = bullets.listIterator(); bulletIterator.hasNext();){
-			Bullet b = bulletIterator.next();
-			b.update(delta);
-			if(!b.isAlive()){
-				bulletIterator.remove();
-			}
-		}
-
 		sb.begin();
 		ship.render(sb);
-		for (Bullet bullet : bullets) {
-			bullet.render(sb);
-		}
 		font.draw(sb, "Hello World", 200, 300);
 		sb.end();
 	}

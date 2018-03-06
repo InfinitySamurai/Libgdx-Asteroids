@@ -6,12 +6,17 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ListIterator;
+
 public class Ship{
     private final float accelerationSpeed = 150f;
     private final float maxSpeed = 300f;
     private final float rotationSpeed = 200f;
 
     private final Movement movement = new Movement(maxSpeed, rotationSpeed, 0,0, accelerationSpeed);
+    List<Bullet> bullets = new ArrayList<>();
 
     Texture texture;
     Sprite sprite;
@@ -22,6 +27,10 @@ public class Ship{
         sprite.setOriginCenter();
         sprite.setPosition(250, 250);
         sprite.setRotation(180);
+    }
+
+    private void createBullet(){
+        bullets.add(new Bullet(sprite.getRotation(), sprite.getX(), sprite.getY()));
     }
 
     public void update(float delta){
@@ -37,10 +46,26 @@ public class Ship{
             movement.changeVelocity(sprite, delta);
         }
 
+        if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
+            createBullet();
+        }
+
         movement.moveSprite(sprite, delta);
+
+        for (ListIterator<Bullet> bulletIterator = bullets.listIterator(); bulletIterator.hasNext();){
+            Bullet b = bulletIterator.next();
+            b.update(delta);
+            if(!b.isAlive()){
+                bulletIterator.remove();
+            }
+        }
+
     }
 
     public void render(SpriteBatch sb){
         sprite.draw(sb);
+        for (Bullet bullet : bullets) {
+            bullet.render(sb);
+        }
     }
 }
